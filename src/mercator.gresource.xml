@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/github/snensmens/Mercator">
+    <file preprocess="xml-stripblanks" alias="window.ui">ui/window/window.ui</file>
+    <file preprocess="xml-stripblanks" alias="setup-quiz-dialog.ui">ui/window/setup-quiz-dialog.ui</file>
+
+    <file preprocess="xml-stripblanks" alias="quiz-overview-page.ui">ui/quiz_overview_page/quiz-overview-page.ui</file>
+    <file preprocess="xml-stripblanks" alias="quiz-entry.ui">ui/quiz_overview_page/quiz-entry.ui</file>
+
+    <file preprocess="xml-stripblanks" alias="quiz-page.ui">ui/quiz_page/quiz-page.ui</file>
+
+    <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
+  </gresource>
+  
+  <gresource prefix="/com/github/snensmens/Mercator/icons/scalable/actions/">
+    <file alias="right-symbolic.svg">gtk/icons/right-symbolic.svg</file>
+    <file alias="star-large-symbolic.svg">gtk/icons/star-large-symbolic.svg</file>
+    <file alias="star-outline-rounded-symbolic.svg">gtk/icons/star-outline-rounded-symbolic.svg</file>
+
+    <file alias="view-fullscreen-symbolic.svg">gtk/icons/view-fullscreen-symbolic.svg</file>
+    <file alias="view-restore-symbolic.svg">gtk/icons/view-restore-symbolic.svg</file>
+
+    <file alias="rotate-right-symbolic.svg">gtk/icons/rotate-right-symbolic.svg</file>
+    <file alias="clock-alt-symbolic.svg">gtk/icons/clock-alt-symbolic.svg</file>
+    <file alias="cafe-symbolic.svg">gtk/icons/cafe-symbolic.svg</file>
+
+    <file alias="check-plain-symbolic.svg">gtk/icons/check-plain-symbolic.svg</file>
+    <file alias="cross-large-symbolic.svg">gtk/icons/cross-large-symbolic.svg</file>
+
+    <file alias="edit-symbolic.svg">gtk/icons/edit-symbolic.svg</file>
+    <file alias="mouse-click-symbolic.svg">gtk/icons/mouse-click-symbolic.svg</file>
+    <file alias="map-symbolic.svg">gtk/icons/map-symbolic.svg</file>
+  </gresource>
+</gresources>

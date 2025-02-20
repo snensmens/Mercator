@@ -1,0 +1,162 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $MercatorApplicationWindow: Adw.ApplicationWindow {
+  title: "Mercator";
+  default-width: 1200;
+  default-height: 800;
+
+  styles ["devel"]
+
+  Adw.NavigationView navigation {
+    Adw.NavigationPage welcome_page {
+      title: "Mercator";
+
+      Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          [end]
+          MenuButton {
+            menu-model: app-menu;
+            icon-name: "open-menu-symbolic";
+            primary: true;
+          }
+        }
+
+        content: Adw.PreferencesPage {
+          title: _("Welcome");
+          valign: center;
+
+          Adw.PreferencesGroup {
+            Adw.ActionRow {
+              title: _("Favorites");
+              activatable: true;
+
+              [prefix]
+              Button {
+                valign: center;
+                focusable: false;
+                can-target: false;
+                icon-name: "star-large-symbolic";
+
+                styles [
+                  "accent",
+                  "circular"
+                ]
+              }
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+		    }
+          }
+
+          Adw.PreferencesGroup world {
+            title: _("Quizzes");
+
+            Adw.ActionRow {
+              title: _("World");
+              activatable: true;
+              action-name: "win.open-quiz-overview";
+              action-target: "'WORLD'";
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+            }
+          }
+
+          Adw.PreferencesGroup continents {
+            Adw.ActionRow {
+              title: _("Africa");
+              activatable: true;
+              action-name: "win.open-quiz-overview";
+              action-target: "'AFR'";
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("North America");
+              activatable: true;
+              action-name: "win.open-quiz-overview";
+              action-target: "'AMN'";
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("South America");
+              activatable: true;
+              action-name: "win.open-quiz-overview";
+              action-target: "'AMS'";
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Asia");
+              activatable: true;
+              action-name: "win.open-quiz-overview";
+              action-target: "'AS'";
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Australia");
+              activatable: true;
+              action-name: "win.open-quiz-overview";
+              action-target: "'AU'";
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Europe");
+              activatable: true;
+              action-name: "win.open-quiz-overview";
+              action-target: "'EU'";
+
+              [suffix]
+              Image {
+                icon-name: "right-symbolic";
+              }
+            }
+          }
+        };
+      }
+    }
+  }
+}
+
+menu app-menu {
+  section {
+    item {
+      label: _("Keyboard Shortcuts");
+      action: "win.show-help-overlay";
+    }
+
+    item {
+      label: _("About Chapterize");
+      action: "app.about";
+    }
+  }
+}

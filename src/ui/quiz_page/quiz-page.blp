@@ -1,0 +1,128 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $QuizPage : Adw.NavigationPage {
+  title: "Mercator";
+  shown => $on_shown();
+  hiding => $on_hiding();
+
+  Box {
+    orientation: vertical;
+
+    Overlay {
+      vexpand: true;
+
+      [overlay]
+      Adw.HeaderBar {
+        show-title: false;
+        valign: start;
+
+        styles ["flat"]
+
+        [start]
+        Button toggle_fullscreen_button {
+          action-name: "win.toggle-fullscreen";
+        }
+
+        [end]
+        MenuButton {
+          menu-model: app-menu;
+          icon-name: "open-menu-symbolic";
+          primary: true;
+        }
+      }
+
+      child: $SvgSurface svg_surface {
+        overflow: "hidden";
+        
+        region-clicked => $on_region_clicked();
+        region-hovered => $on_region_hovered();
+        nothing-hovered => $on_nothing_hovered();
+      };
+    }
+
+    CenterBox {
+      margin-top: 8;
+      margin-bottom: 8;
+      margin-start: 8;
+      margin-end: 8;
+      hexpand: true;
+
+      [start]
+      Button progress {
+        label: "- / -";
+        halign: start;
+        focusable: false;
+        can-target: false;
+
+        styles [
+          "flat"
+        ]
+      }
+
+      [center]
+      Adw.Clamp {
+        maximum-size: 500;
+        child: Box {
+          spacing: 8;
+          styles ["heading"]
+
+          Entry answer_field {
+            halign: fill;
+            hexpand: true;
+            placeholder-text: "Type in your answer...";
+            activate => $on_answer_field_activated();
+          }
+
+          CenterBox {
+            visible: bind answer_field.visible inverted;
+
+            [center]
+            Label bottom_bar_label {
+              hexpand: true;
+            }
+
+            [end]
+            Image {}
+          }
+
+          Button skip_button {
+            valign: center;
+            icon-name: "rotate-right-symbolic";
+            tooltip-text: _("Skip this question");
+            //clicked => $on_skip_clicked();
+
+            styles ["flat"]
+          }
+        };
+      }
+
+      [end]
+      ToggleButton pause_button {
+        halign: end;
+        focusable: true;
+
+        styles ["flat", "numeric"]
+
+        Adw.ButtonContent pause_button_content {
+          icon-name: "clock-alt-symbolic";
+          label: "00:00";
+        }
+      }
+    }
+  }
+}
+
+menu app-menu {
+  section {
+    item {
+      label: _("Keyboard Shortcuts");
+      action: "win.show-help-overlay";
+    }
+
+    item {
+      label: _("About Mercator");
+      action: "app.about";
+    }
+  }
+}

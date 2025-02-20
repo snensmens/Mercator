@@ -1,0 +1,55 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $SetupQuizDialog: Adw.AlertDialog {
+  heading: _("Set up Quiz");
+
+  extra-child: ListBox {
+    selection-mode: none;
+    width-request: 340;
+
+    styles ["boxed-list"]
+
+    Adw.ActionRow play_style_row {
+      [suffix]
+      Adw.ToggleGroup play_style_toggle {
+        valign: center;
+        margin-start: 8;
+
+        Adw.Toggle {
+          icon-name: "edit-symbolic";
+          name: "type-in";
+        }
+
+        Adw.Toggle {
+          icon-name: "mouse-click-symbolic";
+          name: "point-at";
+        }
+
+        Adw.Toggle {
+          icon-name: "map-symbolic";
+          name: "explore";
+        }
+      }
+    }
+
+    Adw.SwitchRow learning_mode_row {
+      title: _("Learning mode");
+      subtitle: _("Repeats questions until answered sufficiently");
+    }
+
+    Adw.SpinRow adjustment_row {
+      adjustment: Adjustment {
+        lower: 1;
+        upper: 5;
+        step-increment: 1;
+        value: 3;
+      };
+    }
+  };
+
+  responses [
+    cancel: "Cancel",
+    start: "Start" suggested
+  ]
+}

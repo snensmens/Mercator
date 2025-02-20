@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Mercator
+Exec=mercator
+Icon=com.github.snensmens.Mercator
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

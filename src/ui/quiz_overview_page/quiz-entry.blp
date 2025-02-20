@@ -1,0 +1,20 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $QuizEntry : Adw.ActionRow {
+  activatable: true;
+  activated => $on_activated();
+
+  [prefix]
+  ToggleButton {
+    icon-name: "star-outline-rounded-symbolic";
+    valign: center;
+
+    styles ["circular"]
+  }
+
+  [suffix]
+  Image {
+    icon-name: "right-symbolic";
+  }
+}

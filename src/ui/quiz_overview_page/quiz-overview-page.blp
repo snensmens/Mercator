@@ -1,0 +1,43 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $QuizOverviewPage : Adw.NavigationPage {
+  title: "Mercator";
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [start]
+      ToggleButton {
+        icon-name: "star-large-symbolic";
+      }
+    }
+
+    Box {
+      orientation: vertical;
+      margin-top: 16;
+
+      Label title {
+        styles ["title-1"]
+      }
+
+      Adw.ViewStack {
+        vexpand: true;
+
+        Adw.ViewStackPage {
+          child: Adw.PreferencesPage quizzes-overview {
+            Adw.PreferencesGroup higher-order-quizzes {}
+          };
+        }
+
+        Adw.ViewStackPage {
+          child: Adw.StatusPage {
+            icon-name: "star-large-symbolic";
+            title: _("No favorites");
+            description: "Mark quizzes as favorite to view them here";
+          };
+        }
+      }
+    }
+  }
+}
