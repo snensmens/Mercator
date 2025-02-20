@@ -28,11 +28,12 @@ STROKE_COLOR_LIGHT_HIGH_CONTRAST = "#000000"
 
 
 class Region:
-    def __init__(self, region_id, path):
+    def __init__(self, region_id, path, region_type):
         self.id = region_id
         self.path = Gsk.Path.parse(path)
         self.is_selected = False
         self.is_hovered = False
+        self.region_type = region_type
 
 
 class Bounds:
@@ -150,15 +151,17 @@ class SvgSurface(Gtk.Widget):
     def set_svg(self, file):
         svg_root = ET.parse(f"/app/share/mercator/mercator/maps/{file}.svg").getroot()
         for child in svg_root.iter("{http://www.w3.org/2000/svg}path"):
-            self.regions.append( Region(region_id=child.attrib["id"], path=child.attrib["d"]) )
+            self.regions.append(Region(
+                region_id=child.attrib["id"],
+                region_type=child.attrib["class"],
+                path=child.attrib["d"],
+            ))
 
         self.bounds = Bounds()
 
         for region in self.regions:
             _, bounds = region.path.get_stroke_bounds(self.stroke)
             self.bounds.add(bounds.get_top_left().y, bounds.get_bottom_right().y, bounds.get_top_left().x, bounds.get_bottom_right().x)
-
-        print(self.bounds.top, self.bounds.left, self.bounds.bottom, self.bounds.right)
 
         match file:
             case "africa":
@@ -192,7 +195,7 @@ class SvgSurface(Gtk.Widget):
             region.is_hovered = False
 
         for region in self.regions:
-            if region.path.in_fill(position, Gsk.FillRule.WINDING):
+            if region.region_type == "land" and region.path.in_fill(position, Gsk.FillRule.WINDING):
                 region.is_hovered = True
 
                 if self._last_hovered_region != region.id:
@@ -235,14 +238,18 @@ class SvgSurface(Gtk.Widget):
         for region in self.regions:
             snapshot.append_stroke(region.path, self.stroke, self.stroke_color)
 
-            if region.is_selected:
-                snapshot.append_fill(region.path, Gsk.FillRule.WINDING, self.fill_color_selected)
-
-            elif region.is_hovered:
-                snapshot.append_fill(region.path, Gsk.FillRule.WINDING, self.fill_color_hovered)
+            if region.region_type != "land":
+                snapshot.append_fill(region.path, Gsk.FillRule.WINDING, self.stroke_color)
 
             else:
-                snapshot.append_fill(region.path, Gsk.FillRule.WINDING, self.fill_color)
+                if region.is_selected:
+                    snapshot.append_fill(region.path, Gsk.FillRule.WINDING, self.fill_color_selected)
+
+                elif region.is_hovered:
+                    snapshot.append_fill(region.path, Gsk.FillRule.WINDING, self.fill_color_hovered)
+
+                else:
+                    snapshot.append_fill(region.path, Gsk.FillRule.WINDING, self.fill_color)
 
     def set_region_selected(self, region_id, selected):
         for region in self.regions:
