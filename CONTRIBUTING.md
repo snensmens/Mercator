@@ -24,3 +24,25 @@ You can build Mercator using Flatpak Builder:
     ```
    flatpak run com.github.snensmens.Mercator
    ```
+   
+## Add translations
+If you want to contribute translation to the app
+
+### Add a new language
+1. Check if your language is already added for translations under `po/LINGUAS`
+   
+   if not, add the country code of your country (2-digit ISO 3166-1) to the file. (eg. `es` for Spain)
+
+2. Create a new po file for your language
+   ```
+   // replace {locale} and {country-code} according to your language
+   msginit -i po/com.github.snensmens.Mercator.pot --locale={locale} -o po/{country-code}.po
+   
+   // example for creating a po file for spanish (spain) language:
+   msginit -i po/com.github.snensmens.Mercator.pot --locale=es_ES -o po/es.po
+   ```
+   
+### Update
+```
+msgmerge --update po/{language}.po po/com.github.snensmens.Mercator.pot
+```

@@ -19,7 +19,6 @@ gi.require_version('Adw', '1')
 
 from gi.repository import Adw
 from gi.repository import Gio
-from gi.repository import GLib
 
 from .ui.window.window import MercatorApplicationWindow
 

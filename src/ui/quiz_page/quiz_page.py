@@ -108,7 +108,8 @@ class QuizPage(Adw.NavigationPage):
 
         if out_of_tries:
             self.answer_field.set_visible(False)
-            self.bottom_bar_label.set_label(f"Die Antwort ist: {lookup_name(self.game.current_question)}")
+            self.bottom_bar_label.set_label(
+                _("The answer is: {answer}").format(answer=lookup_name(self.game.current_question)))
 
         answer_field.set_editable(False)
 
@@ -130,7 +131,8 @@ class QuizPage(Adw.NavigationPage):
             self.bottom_bar.remove_css_class("success")
             self.bottom_bar.remove_css_class("error")
 
-            self.bottom_bar_label.set_text(f"Where is {question} ?")
+            self.bottom_bar_label.set_text(
+                _("Where is {question} ?").format(question=question))
             self.bottom_bar_image.set_from_icon_name(None)
 
             self.svg_surface.set_sensitive(True)
