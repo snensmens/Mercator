@@ -32,6 +32,25 @@ template $QuizPage : Adw.NavigationPage {
         }
       }
 
+      [overlay]
+      Box {
+        halign: end;
+        valign: end;
+        margin-end: 8;
+        margin-bottom: 8;
+
+        Button {
+          icon-name: "camera-focus-symbolic";
+          valign: center;
+          halign: center;
+
+          styles [
+            "osd",
+            "circular"
+          ]
+        }
+      }
+
       child: $SvgSurface svg_surface {
         overflow: "hidden";
         

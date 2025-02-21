@@ -30,5 +30,7 @@
     <file alias="edit-symbolic.svg">gtk/icons/edit-symbolic.svg</file>
     <file alias="mouse-click-symbolic.svg">gtk/icons/mouse-click-symbolic.svg</file>
     <file alias="map-symbolic.svg">gtk/icons/map-symbolic.svg</file>
+
+    <file alias="camera-focus-symbolic.svg">gtk/icons/camera-focus-symbolic.svg</file>
   </gresource>
 </gresources>
