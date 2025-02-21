@@ -214,7 +214,7 @@ class SvgSurface(Gtk.Widget):
         if clicks > 1:
             return
 
-        position = Graphene.Point().init((x - self.offset_width) / self.scale, y / self.scale)
+        position = Graphene.Point().init((x - self.offset_width) / self.scale, (y - self.offset_height) / self.scale)
 
         for region in self.regions:
             if region.path.in_fill(position, Gsk.FillRule.WINDING):
