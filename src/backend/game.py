@@ -37,7 +37,9 @@ class Game(GObject.Object):
 
         self.__emit_new_question()
 
-    def check_answer(self, answer) -> bool:
+    def check_answer(self, answer) -> [bool, bool]:
+        GLib.timeout_add(1200, self.__emit_new_question)
+
         if self.quiz.quiz_style == QuizStyle.TYPE_IN:
             is_correct = answer.strip() == name(self.current_question)
         else:
@@ -48,7 +50,9 @@ class Game(GObject.Object):
                 self.questions[self.current_question] -= 1
             else:
                 self.questions.pop(self.current_question)
-        elif self.questions.get(self.current_question):
+            return True, False
+
+        if self.questions.get(self.current_question):
             print(f"answer was incorrect (got {answer})")
             if not self.quiz.is_learning_mode:
                 self.questions[self.current_question] -= 1
@@ -56,9 +60,12 @@ class Game(GObject.Object):
             if self.questions[self.current_question] == 0:
                 self.questions.pop(self.current_question)
 
-        GLib.timeout_add(1200, self.__emit_new_question)
+                if self.quiz.is_learning_mode:
+                    return False, False
 
-        return is_correct
+                return False, True
+
+        return False, False
 
     def __emit_new_question(self):
         if len(self.questions) == 0:

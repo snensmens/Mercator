@@ -5,6 +5,7 @@ from gi.repository import GObject
 from ...backend.quiz import Quiz, QuizStyle
 from ...backend.game import Game
 from ...backend.utils import seconds_to_str
+from ...backend.lookup_table import name as lookup_name
 
 from .svg_surface import SvgSurface
 
@@ -70,12 +71,17 @@ class QuizPage(Adw.NavigationPage):
         if self.quiz.quiz_style != QuizStyle.POINT_AT:
             return
 
-        if self.game.check_answer(region_id):
+        is_correct, out_of_tries = self.game.check_answer(region_id)
+
+        if is_correct:
             self.bottom_bar.add_css_class("success")
             self.bottom_bar_image.set_from_icon_name("check-plain-symbolic")
         else:
             self.bottom_bar.add_css_class("error")
             self.bottom_bar_image.set_from_icon_name("cross-large-symbolic")
+
+        if out_of_tries:
+            self.svg_surface.set_region_selected(self.game.current_question, True)
 
         self.svg_surface.set_sensitive(False)
 
@@ -91,16 +97,24 @@ class QuizPage(Adw.NavigationPage):
 
     @Gtk.Template.Callback()
     def on_answer_field_activated(self, answer_field: Gtk.Entry):
-        if self.game.check_answer(answer_field.get_text()):
+        is_correct, out_of_tries = self.game.check_answer(answer_field.get_text())
+
+        if is_correct:
             self.answer_field.add_css_class("success")
             self.answer_field.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "check-plain-symbolic")
         else:
             self.answer_field.add_css_class("error")
             self.answer_field.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "cross-large-symbolic")
 
+        if out_of_tries:
+            self.answer_field.set_visible(False)
+            self.bottom_bar_label.set_label(f"Die Antwort ist: {lookup_name(self.game.current_question)}")
+
         answer_field.set_editable(False)
 
     def __on_new_question(self, question):
+        self.svg_surface.unselect_all()
+
         if self.quiz.quiz_style == QuizStyle.TYPE_IN:
             self.answer_field.remove_css_class("success")
             self.answer_field.remove_css_class("error")
@@ -108,8 +122,8 @@ class QuizPage(Adw.NavigationPage):
             self.answer_field.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, None)
             self.answer_field.set_text("")
             self.answer_field.set_editable(True)
+            self.answer_field.set_visible(True)
 
-            self.svg_surface.unselect_all()
             self.svg_surface.set_region_selected(question, True)
 
         else:
