@@ -282,6 +282,62 @@ lookup: dict = {
     "AMS": {
         "name": "South America"
     },
+    "AR": {
+        "name": "Argentina",
+        "capital": "Buenos Aires"
+    },
+    "BO": {
+        "name": "Bolivia",
+        "capital": "Sucre"
+    },
+    "BR": {
+        "name": "Brazil",
+        "capital": "Brasília"
+    },
+    "CL": {
+        "name": "Chile",
+        "capital": "Santiago"
+    },
+    "CO": {
+        "name": "Colombia",
+        "capital": "Bogotá"
+    },
+    "EC": {
+        "name": "Ecuador",
+        "capital": "Quito"
+    },
+    "FK": {
+        "name": "Falkland Islands",
+        "capital": "Stanley"
+    },
+    "GF": {
+        "name": "French Guiana",
+        "capital": "Cayenne"
+    },
+    "GY": {
+        "name": "Guyana",
+        "capital": "Georgetown"
+    },
+    "PE": {
+        "name": "Peru",
+        "capital": "Lima"
+    },
+    "PY": {
+        "name": "Paraguay",
+        "capital": "Asunción"
+    },
+    "SR": {
+        "name": "Suriname",
+        "capital": "Paramaribo"
+    },
+    "UY": {
+        "name": "Uruguay",
+        "capital": "Montevideo"
+    },
+    "VE": {
+        "name": "Venezuela",
+        "capital": "Caracas"
+    },
 
     #   Asia
     "AS": {
