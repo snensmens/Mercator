@@ -343,6 +343,175 @@ lookup: dict = {
     "AS": {
         "name": "Asia"
     },
+    "AE": {
+        "name": "United Arab Emirates",
+        "capital": "Abu Dhabi"
+    },
+    "AF": {
+        "name": "Afghanistan",
+        "capital": "Kabul"
+    },
+    "BD": {
+        "name": "Bangladesh",
+        "capital": "Dhaka"
+    },
+    "BN": {
+        "name": "Brunei Darussalam",
+        "capital": "Bandar Seri Begawan"
+    },
+    "BT": {
+        "name": "Bhutan",
+        "capital": "Thimphu"
+    },
+    "CN": {
+        "name": "China",
+        "capital": "Beijing"
+    },
+    "ID": {
+        "name": "Indonesia",
+        "capital": "Jakarta"
+    },
+    "IL": {
+        "name": "Israel",
+        "capital": "Jerusalem"
+    },
+    "IN": {
+        "name": "India",
+        "capital": "New Delhi"
+    },
+    "IQ": {
+        "name": "Iraq",
+        "capital": "Baghdad"
+    },
+    "IR": {
+        "name": "Iran",
+        "capital": "Tehran"
+    },
+    "JO": {
+        "name": "Jordan",
+        "capital": "Amman"
+    },
+    "JP": {
+        "name": "Japan",
+        "capital": "Tokyo"
+    },
+    "KG": {
+        "name": "Kyrgyzstan",
+        "capital": "Bishkek"
+    },
+    "KH": {
+        "name": "Cambodia",
+        "capital": "Phnom Penh"
+    },
+    "KP": {
+        "name": "North Korea",
+        "capital": "Pyongyang"
+    },
+    "KR": {
+        "name": "South Korea",
+        "capital": "Seoul"
+    },
+    "KW": {
+        "name": "Kuwait",
+        "capital": "Kuwait City"
+    },
+    "KZ": {
+        "name": "Kazakhstan",
+        "capital": "Astana"
+    },
+    "LA": {
+        "name": "Laos",
+        "capital": "Vientiane"
+    },
+    "LB": {
+        "name": "Lebanon",
+        "capital": "Beirut"
+    },
+    "LK": {
+        "name": "Sri Lanka",
+        "capital": "Sri Jayawardenepura Kotte and Colombo"
+    },
+    "MM": {
+        "name": "Myanmar",
+        "capital": "Naypyidaw"
+    },
+    "MN": {
+        "name": "Mongolia",
+        "capital": "Ulaanbaatar"
+    },
+    "MY": {
+        "name": "Malaysia",
+        "capital": "Kuala Lumpur"
+    },
+    "NP": {
+        "name": "Nepal",
+        "capital": "Kathmandu"
+    },
+    "OM": {
+        "name": "Oman",
+        "capital": "Muscat"
+    },
+    "PH": {
+        "name": "Philippines",
+        "capital": "Manila"
+    },
+    "PK": {
+        "name": "Pakistan",
+        "capital": "Islamabad"
+    },
+    "PS": {
+        "name": "Palestine",
+        "capital": "Ramallah"
+    },
+    "QA": {
+        "name": "Qatar",
+        "capital": "Doha"
+    },
+    "RU-asia": {
+        "name": "Russia",
+        "capital": "Moscow"
+    },
+    "SA": {
+        "name": "Saudi Arabia",
+        "capital": "Riyadh"
+    },
+    "SY": {
+        "name": "Syria",
+        "capital": "Damascus"
+    },
+    "TH": {
+        "name": "Thailand",
+        "capital": "Bangkok"
+    },
+    "TJ": {
+        "name": "Tajikistan",
+        "capital": "Dushanbe"
+    },
+    "TL": {
+        "name": "Timor-Leste",
+        "capital": "Dili"
+    },
+    "TM": {
+        "name": "Turkmenistan",
+        "capital": "Ashgabat"
+    },
+    "TW": {
+        "name": "Taiwan",
+        "capital": "Taipei"
+    },
+    "UZ": {
+        "name": "Uzbekistan",
+        "capital": "Tashkent"
+    },
+    "VN": {
+        "name": "Vietnam",
+        "capital": "Hanoi"
+    },
+    "YE": {
+        "name": "Yemen",
+        "capital": "Sanaa"
+    },
+
 
     #   Australia
     "AU": {
@@ -877,10 +1046,6 @@ lookup: dict = {
     "KV": {
         "name": "Kosovo",
         "capital": "Pristina"
-    },
-    "KZ": {
-        "name": "Kazakhstan",
-        "capital": "Astana"
     },
     "LI": {
         "name": "Liechtenstein",
