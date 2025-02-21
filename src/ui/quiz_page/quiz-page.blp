@@ -93,8 +93,9 @@ template $QuizPage : Adw.NavigationPage {
             activate => $on_answer_field_activated();
           }
 
-          CenterBox {
+          CenterBox bottom_bar {
             visible: bind answer_field.visible inverted;
+            hexpand: true;
 
             [center]
             Label bottom_bar_label {
@@ -102,7 +103,7 @@ template $QuizPage : Adw.NavigationPage {
             }
 
             [end]
-            Image {}
+            Image bottom_bar_image {}
           }
 
           Button skip_button {

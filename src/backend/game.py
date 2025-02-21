@@ -3,8 +3,8 @@ import random
 from gi.repository import GObject
 from gi.repository import GLib
 
-from .lookup_table import lookup
-from .quiz import Quiz
+from .lookup_table import lookup, name
+from .quiz import Quiz, QuizStyle
 
 
 class Game(GObject.Object):
@@ -12,6 +12,10 @@ class Game(GObject.Object):
 
     paused = GObject.Property(type=bool, default=True)
     duration = GObject.Property(type=int, default=0)
+
+    @GObject.Signal(name="new-question", arg_types=(str,))
+    def new_question(self, question):
+        pass
 
     @GObject.Signal()
     def finished(self):
@@ -31,29 +35,44 @@ class Game(GObject.Object):
         for question in self.quiz.questions:
             self.questions[question] = 3
 
-    def get_question(self) -> str | None:
-        if len(self.questions) == 0:
-            return None
+        self.__emit_new_question()
 
-        self.current_question = random.choice(list(self.questions.keys()))
-        return self.current_question
+    def check_answer(self, answer) -> bool:
+        if self.quiz.quiz_style == QuizStyle.TYPE_IN:
+            is_correct = answer.strip() == name(self.current_question)
+        else:
+            is_correct = answer == self.current_question
 
-
-    def check_answer(self, answer: str) -> tuple[bool, bool]:
-        is_correct = answer.strip() == lookup[self.current_question]["name"]
-
-        if not is_correct:
-            print("We are looking for", lookup[self.current_question]["name"])
-            self.questions[self.current_question] -= 1
+        if is_correct:
+            if self.quiz.is_learning_mode:
+                self.questions[self.current_question] -= 1
+            else:
+                self.questions.pop(self.current_question)
+        elif self.questions.get(self.current_question):
+            print(f"answer was incorrect (got {answer})")
+            if not self.quiz.is_learning_mode:
+                self.questions[self.current_question] -= 1
 
             if self.questions[self.current_question] == 0:
                 self.questions.pop(self.current_question)
-                return False, False
 
-            return False, True
+        GLib.timeout_add(1200, self.__emit_new_question)
 
-        self.questions.pop(self.current_question)
-        return True, True
+        return is_correct
+
+    def __emit_new_question(self):
+        if len(self.questions) == 0:
+            self.emit("finished")
+        else:
+            if (self.current_question is None
+                    or self.questions.get(self.current_question) is None
+                    or self.quiz.is_learning_mode):
+                self.current_question = random.choice(list(self.questions.keys()))
+
+            if self.quiz.quiz_style == QuizStyle.TYPE_IN:
+                self.emit("new-question", self.current_question)
+            else:
+                self.emit("new-question", name(self.current_question))
 
     def __clock(self):
         if not self.paused:

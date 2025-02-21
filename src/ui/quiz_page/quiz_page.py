@@ -1,6 +1,5 @@
 from gi.repository import Adw
 from gi.repository import Gtk
-from gi.repository import GLib
 from gi.repository import GObject
 
 from ...backend.quiz import Quiz, QuizStyle
@@ -19,7 +18,9 @@ class QuizPage(Adw.NavigationPage):
     svg_surface: SvgSurface = Gtk.Template.Child()
 
     answer_field: Gtk.Entry = Gtk.Template.Child()
+    bottom_bar: Gtk.CenterBox = Gtk.Template.Child()
     bottom_bar_label: Gtk.Label = Gtk.Template.Child()
+    bottom_bar_image: Gtk.Image = Gtk.Template.Child()
     skip_button: Gtk.Button = Gtk.Template.Child()
 
     pause_button: Gtk.ToggleButton = Gtk.Template.Child()
@@ -30,6 +31,10 @@ class QuizPage(Adw.NavigationPage):
 
         self.quiz = quiz
         self.game = Game(self.quiz)
+
+        self.game.connect("new-question", lambda _, q: self.__on_new_question(q))
+        self.game.connect("finished", print)
+
         self.game.bind_property("duration", self.pause_button_content, "label",
                                 GObject.BindingFlags.DEFAULT,
                                 lambda _, sec: seconds_to_str(sec))
@@ -43,7 +48,7 @@ class QuizPage(Adw.NavigationPage):
 
         window.bind_property("fullscreened", self.toggle_fullscreen_button, "icon-name",
                              GObject.BindingFlags.SYNC_CREATE,
-                             self.on_fullscreened_notification)
+                             lambda _, is_fs: "view-restore-symbolic" if is_fs else "view-fullscreen-symbolic")
 
         self.answer_field.set_visible(quiz.quiz_style == QuizStyle.TYPE_IN)
         self.skip_button.set_visible(quiz.quiz_style != QuizStyle.EXPLORE)
@@ -54,7 +59,7 @@ class QuizPage(Adw.NavigationPage):
     @Gtk.Template.Callback()
     def on_shown(self, _page):
         if self.quiz.quiz_style != QuizStyle.EXPLORE:
-            self.start_new_game()
+            self.game.begin()
 
     @Gtk.Template.Callback()
     def on_hiding(self, _page):
@@ -62,48 +67,56 @@ class QuizPage(Adw.NavigationPage):
 
     @Gtk.Template.Callback()
     def on_region_clicked(self, _svg_surface, region_id):
-        pass
+        if self.quiz.quiz_style != QuizStyle.POINT_AT:
+            return
+
+        if self.game.check_answer(region_id):
+            self.bottom_bar.add_css_class("success")
+            self.bottom_bar_image.set_from_icon_name("check-plain-symbolic")
+        else:
+            self.bottom_bar.add_css_class("error")
+            self.bottom_bar_image.set_from_icon_name("cross-large-symbolic")
+
+        self.svg_surface.set_sensitive(False)
 
     @Gtk.Template.Callback()
     def on_region_hovered(self, _svg_surface, region_id):
-        match self.quiz.quiz_style:
-            case QuizStyle.EXPLORE:
-                self.bottom_bar_label.set_text(self.quiz.lookup(region_id))
+        if self.quiz.quiz_style == QuizStyle.EXPLORE:
+            self.bottom_bar_label.set_text(self.quiz.lookup(region_id))
 
     @Gtk.Template.Callback()
     def on_nothing_hovered(self, _svg_surface):
-        self.bottom_bar_label.set_text("")
+        if self.quiz.quiz_style == QuizStyle.EXPLORE:
+            self.bottom_bar_label.set_text("")
 
     @Gtk.Template.Callback()
     def on_answer_field_activated(self, answer_field: Gtk.Entry):
-        is_correct, has_retries_left = self.game.check_answer(answer_field.get_text())
-
-        if is_correct:
+        if self.game.check_answer(answer_field.get_text()):
             self.answer_field.add_css_class("success")
             self.answer_field.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "check-plain-symbolic")
         else:
             self.answer_field.add_css_class("error")
+            self.answer_field.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "cross-large-symbolic")
 
-        GLib.timeout_add(1200, self.reset_answer_field)
+        answer_field.set_editable(False)
 
-        if is_correct or not has_retries_left:
-            GLib.timeout_add(1200, self.next_question)
+    def __on_new_question(self, question):
+        if self.quiz.quiz_style == QuizStyle.TYPE_IN:
+            self.answer_field.remove_css_class("success")
+            self.answer_field.remove_css_class("error")
 
-    def on_fullscreened_notification(self, _binding, is_fullscreen):
-        return "view-restore-symbolic" if is_fullscreen else "view-fullscreen-symbolic"
+            self.answer_field.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, None)
+            self.answer_field.set_text("")
+            self.answer_field.set_editable(True)
 
-    def start_new_game(self):
-        self.game.begin()
-        self.next_question()
+            self.svg_surface.unselect_all()
+            self.svg_surface.set_region_selected(question, True)
 
-    def next_question(self):
-        self.svg_surface.unselect_all()
-        self.svg_surface.set_region_selected(self.game.get_question(), True)
-        #self.answer_field.grab_focus()
+        else:
+            self.bottom_bar.remove_css_class("success")
+            self.bottom_bar.remove_css_class("error")
 
-    def reset_answer_field(self):
-        self.answer_field.remove_css_class("success")
-        self.answer_field.remove_css_class("error")
+            self.bottom_bar_label.set_text(f"Where is {question} ?")
+            self.bottom_bar_image.set_from_icon_name(None)
 
-        self.answer_field.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, None)
-        self.answer_field.set_text("")
+            self.svg_surface.set_sensitive(True)
