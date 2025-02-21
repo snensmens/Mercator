@@ -209,6 +209,74 @@ lookup: dict = {
     "AMN": {
         "name": "North America"
     },
+    "BS": {
+        "name": "Bahamas",
+        "capital": "Nassau"
+    },
+    "BZ": {
+        "name": "Belize",
+        "capital": "Belmopan"
+    },
+    "CA": {
+        "name": "Canada",
+        "capital": "Ottawa"
+    },
+    "CR": {
+        "name": "Costa Rica",
+        "capital": "San José"
+    },
+    "CU": {
+        "name": "Cuba",
+        "capital": "Havana"
+    },
+    "DO": {
+        "name": "Dominican Republic",
+        "capital": "Santo Domingo"
+    },
+    "GL": {
+        "name": "Greenland",
+        "capital": "Nuuk"
+    },
+    "GT": {
+        "name": "Guatemala",
+        "capital": "Guatemala City"
+    },
+    "HN": {
+        "name": "Honduras",
+        "capital": "Tegucigalpa"
+    },
+    "HT": {
+        "name": "Haiti",
+        "capital": "Port-au-Prince"
+    },
+    "JM": {
+        "name": "Jamaica",
+        "capital": "Kingston"
+    },
+    "MX": {
+        "name": "Mexico",
+        "capital": "Mexico City"
+    },
+    "NI": {
+        "name": "Nicaragua",
+        "capital": "Managua"
+    },
+    "PA": {
+        "name": "Panama",
+        "capital": "Panama City"
+    },
+    "PR": {
+        "name": "Puerto Rico",
+        "capital": "San Juan"
+    },
+    "SV": {
+        "name": "El Salvador",
+        "capital": "San Salvador"
+    },
+    "US": {
+        "name": "United States of America",
+        "capital": "Washington, D.C."
+    },
 
     #   South America
     "AMS": {
